@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<ICommandApiRepo, MockCommandApiRepo>();
+builder.Services.AddScoped<ICommandApiRepo, SqlCommandApiRepo>();
 builder.Services.AddDbContext<CommandContext>(
     opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
 
