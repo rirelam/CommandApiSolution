@@ -5,6 +5,8 @@ using Npgsql;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddScoped<ICommandApiRepo, SqlCommandApiRepo>();
 
 var pgsqlBuilder = new NpgsqlConnectionStringBuilder
