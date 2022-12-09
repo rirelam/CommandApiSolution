@@ -1,11 +1,14 @@
 using CommandApi.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<ICommandApiRepo, MockCommandApiRepo>();
+builder.Services.AddDbContext<CommandContext>(
+    opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<ICommandApiRepo, MockCommandApiRepo>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
