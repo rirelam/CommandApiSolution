@@ -22,7 +22,11 @@ public class SqlCommandApiRepo : ICommandApiRepo
 
     public void DeleteCommand(Command cmd)
     {
-        throw new NotImplementedException();
+        if (cmd == null)
+        {
+            throw new ArgumentNullException(nameof(cmd));
+        }
+        _context.CommandItems?.Remove(cmd);
     }
 
     public IEnumerable<Command>? GetAllCommands()
@@ -42,6 +46,6 @@ public class SqlCommandApiRepo : ICommandApiRepo
 
     public void UpdateCommand(Command cmd)
     {
-        throw new NotImplementedException();
+        //We don't need to do anything here
     }
 }

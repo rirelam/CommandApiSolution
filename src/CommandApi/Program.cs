@@ -1,6 +1,6 @@
-using AutoMapper;
 using CommandApi.Data;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +20,11 @@ var connStr = npgsqlbuilder.ToString().Replace("Username", "User Id");
 builder.Services.AddDbContext<CommandContext>(opt => opt.UseNpgsql(connStr));
 // builder.Services.AddDbContext<CommandContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(s =>
+{
+    s.SerializerSettings.ContractResolver = new
+    CamelCasePropertyNamesContractResolver();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
