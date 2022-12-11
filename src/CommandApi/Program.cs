@@ -1,3 +1,4 @@
+using AutoMapper;
 using CommandApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -9,17 +10,15 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<ICommandApiRepo, SqlCommandApiRepo>();
 
-var pgsqlBuilder = new NpgsqlConnectionStringBuilder
+var npgsqlbuilder = new NpgsqlConnectionStringBuilder
 {
     ConnectionString = builder.Configuration.GetConnectionString("PostgreSqlConnection"),
-    Username = builder.Configuration["UserID"],
+    Username = builder.Configuration["User ID"],
     Password = builder.Configuration["Password"]
 };
-builder.Services.AddDbContext<CommandContext>
-(opt => opt.UseNpgsql(pgsqlBuilder.ConnectionString));
-
-builder.Services.AddDbContext<CommandContext>(
-    opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
+var connStr = npgsqlbuilder.ToString().Replace("Username", "User Id");
+builder.Services.AddDbContext<CommandContext>(opt => opt.UseNpgsql(connStr));
+// builder.Services.AddDbContext<CommandContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

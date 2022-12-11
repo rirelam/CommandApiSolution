@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CommandApi.Migrations
 {
     [DbContext(typeof(CommandContext))]
-    [Migration("20221209143932_AddInitialData")]
-    partial class AddInitialData
+    [Migration("20221210170506_AddCommandsToDB")]
+    partial class AddCommandsToDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
