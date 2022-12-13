@@ -36,11 +36,6 @@ public class CommandsControllerTests : IDisposable
     {
         if (!disposed)
         {
-            // mockRepo = null;
-            // mapper = null;
-            // configuration = null;
-            // realProfile = null;
-
             disposed = true;
         }
     }
@@ -100,6 +95,57 @@ public class CommandsControllerTests : IDisposable
         var result = controller.GetAllCommands();
         //Assert
         Assert.IsType<ActionResult<IEnumerable<CommandReadDto>>>(result);
+    }
+
+    [Fact]
+    public void GetCommandByID_Returns404NotFound_WhenNonExistentIDProvided()
+    {
+        //Arrange
+        mockRepo.Setup(repo =>
+        repo.GetCommandById(0)).Returns(() => null);
+        var controller = new CommandController(mockRepo.Object, mapper);
+        //Act
+        var result = controller.GetCommandById(1);
+        //Assert
+        Assert.IsType<NotFoundResult>(result.Result);
+    }
+
+    [Fact]
+    public void GetCommandByID_Returns200OK_WhenValidIDProvided()
+    {
+        //Arrange
+        mockRepo.Setup(repo =>
+        repo.GetCommandById(1)).Returns(new Command
+        {
+            Id = 1,
+            HowTo = "mock",
+            Platform = "Mock",
+            CommandLine = "Mock"
+        });
+        var controller = new CommandController(mockRepo.Object, mapper);
+        //Act
+        var result = controller.GetCommandById(1);
+        //Assert
+        Assert.IsType<OkObjectResult>(result.Result);
+    }
+
+    [Fact]
+    public void GetCommandByID_ReturnsCorrectType_WhenValidIDProvided()
+    {
+        //Arrange
+        mockRepo.Setup(repo =>
+        repo.GetCommandById(1)).Returns(new Command
+        {
+            Id = 1,
+            HowTo = "mock",
+            Platform = "Mock",
+            CommandLine = "Mock"
+        });
+        var controller = new CommandController(mockRepo.Object, mapper);
+        //Act
+        var result = controller.GetCommandById(1);
+        //Assert
+        Assert.IsType<ActionResult<CommandReadDto>>(result);
     }
 
     private static List<Command> GetCommands(int num)

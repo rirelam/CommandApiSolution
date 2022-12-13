@@ -30,7 +30,7 @@ public class CommandController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "GetCommandById")]
-    public ActionResult<Command> GetCommandById(int id)
+    public ActionResult<CommandReadDto> GetCommandById(int id)
     {
         var commandItem = _repository.GetCommandById(id);
         if (commandItem == null)
